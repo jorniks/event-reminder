@@ -41,6 +41,23 @@
     <!-- Mini Navigation bar -->
 
     <main class="col-md-6 mx-auto my-5">
+
+    <?php
+      include 'backend/eventCore.php';
+
+      $event = new EventCore();
+      $eventValue = $event->setEventValues();
+
+      $eventPersonName = $eventValue['eventPersonName'] ?? '';
+      $eventPersonEmail = $eventValue['eventPersonEmail'] ?? '';
+      $eventTitle = $eventValue['eventTitle'] ?? '';
+      $eventDate = $eventValue['eventDate'] ?? '';
+      $eventTime = $eventValue['eventTime'] ?? '';
+      $eventNote = $eventValue['eventNote'] ?? '';
+      $eventMsg = $eventValue['eventMsg'] ?? '';
+    ?>
+
+
       <div class="mx-1 mx-sm-0 shadow-lg bg-white p-3 p-sm-5">
         <label class="lead">Create New Event</label>
         <div class="font-weight-bold small mdb-color-text darken-3">
@@ -49,31 +66,43 @@
 
         <form id="createEventForm" method="POST" autocomplete="false">
           <div class="md-form">
-            <input type="text" id="createEventFormTitle" class="form-control font-weight-bold"
+            <input type="text" value="<?=$eventPersonName?>" name="eventPersonName" id="createEventFormName" class="form-control font-weight-bold"
+              required>
+            <label class="mdb-color-text darken-3" for="createEventFormName">Your Name</label>
+          </div>
+
+          <div class="md-form">
+            <input type="email" value="<?=$eventPersonEmail?>" name="eventPersonEmail" id="createEventFormEmail" class="form-control font-weight-bold"
+              required>
+            <label class="mdb-color-text darken-3" for="createEventFormEmail">Your Email</label>
+          </div>
+          
+          <div class="md-form">
+            <input type="text" value="<?=$eventTitle?>" name="eventTitle" id="createEventFormTitle" class="form-control font-weight-bold"
               required>
             <label class="mdb-color-text darken-3" for="createEventFormTitle">Event Title</label>
           </div>
 
           <!-- Date of Event -->
           <div class="md-form mt-0">
-            <input type="text" id="createEventFormDate" class="form-control font-weight-bold datepicker">
+            <input type="text" value="<?=$eventDate?>" name="eventDate" id="createEventFormDate" class="form-control font-weight-bold datepicker">
             <label class="mdb-color-text darken-3" for="createEventFormDate">Event Date</label>
           </div>
 
           <div class="md-form mt-0">
-            <input type="text" id="createEventFormTime" class="form-control font-weight-bold timepicker">
+            <input type="text" value="<?=$eventTime?>" name="eventTime" id="createEventFormTime" class="form-control font-weight-bold timepicker">
             <label class="mdb-color-text darken-3" for="createEventFormTime">Event Time</label>
           </div>
 
           <!-- Note-->
           <div class="md-form mt-0">
-            <textarea type="text" id="createEventFormNote" class="md-textarea form-control font-weight-bold"
-              rows="3"></textarea>
+            <textarea name="eventNote" id="createEventFormNote" class="md-textarea form-control font-weight-bold" rows="3"><?=$eventNote?></textarea>
             <label class="mdb-color-text darken-3" for="createEventFormNote">Event Description</label>
           </div>
           <!-- Note-->
     
           <!--Footer-->
+          <?=$eventMsg?>
           <div class="text-right mt-5">
             <!-- button should be disabled untill all fields are correctly filled -->
             <button class="btn btn-success disabled" id="createEventButtonAdd">

@@ -61,7 +61,7 @@ function displayDateAndTime() {
 }
 
 //HANDLE CREATE EVENT FORM SUBMISSION
-$("#createEventForm").submit(function (event) {
+$("#createEventForms").submit(function (event) {
   event.preventDefault();
   createEvent();
 });
