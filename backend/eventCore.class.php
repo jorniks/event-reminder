@@ -38,10 +38,6 @@
           "name": "Event Reminder App"
         }, 
         "personalizations": [{
-          "bcc": [{
-            "email": "jonyx747@gmail.com",
-            "name": "John"
-          }],
           "send_at": '. $eventInfo['sendTime'] .',
           "subject": "'. $eventInfo['eventTitle'] .'",
           "to": [
