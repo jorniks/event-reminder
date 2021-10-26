@@ -72,11 +72,11 @@
 
     protected function prepareMailTemplate(array $eventInfo) {
       $mailTemplate = '
-        <section style="margin: 0;padding-top: 3.5rem;-webkit-text-size-adjust: 100%;background-color: #e7e7e7;">
+        <section style="margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: #e7e7e7;">
           <div style="width:100%; height:100%; color: #222;">
             <div style="margin: 0 auto; min-width: 320px; max-width: 600px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">
-              <div style="background: #fff; margin: 0 0.5rem; padding: 2rem 1rem 0.5rem 1rem; box-shadow: 0 4px 10px 1px rgba(0,0,0,0.1)">
-                <span style="font-weight: 600; font-size: 1.3rem; line-height: 3.5rem; color: #0F3661">You are on duty</span>
+              <div style="background: #fff; margin: 3.5rem 0.5rem; padding: 2rem 1rem 0.5rem 1rem; box-shadow: 0 4px 10px 1px rgba(0,0,0,0.1)">
+                <span style="font-weight: 600; font-size: 1.3rem; line-height: 3.5rem; color: #0F3661">Event Reminder Notification</span>
                 
                 <div style="padding-top: 2rem">
                   Dear '. $eventInfo['eventPersonName'] . ',
@@ -115,7 +115,7 @@
                 </div>
 
                 <div style="font-size: smaller; text-align: center; margin-top: 2.5rem;">
-                  &copy; 2021 - John 
+                  &copy; '. date('Y', time()) .' - John 
                 </div>
               </div>
             </div>
