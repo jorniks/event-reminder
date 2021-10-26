@@ -57,7 +57,6 @@
       
       try {
         $sendGridResponse = $sendGrid->client->mail()->send()->post($mailerRequestBody);
-        print_r($sendGridResponse);
         if ($sendGridResponse->statusCode() == 202) {
           return array('eventMsg' => 'Event set successfully. Wait for your mail reminder', 'eventCode' => 'success');
         }
