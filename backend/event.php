@@ -1,31 +1,35 @@
-
 <?php
   date_default_timezone_set("Africa/Lagos");
+  include "../vendor/autoload.php";
 
+  if ($_POST) {
+    $eventTitle = $_POST['eventTitle'];
+    $eventDate = $_POST['eventDate'];
+    $eventTime = $_POST['eventTime'];
+    $eventNote = $_POST['eventNote'];
+    $eventPersonEmail = $_POST['eventPersonEmail'];
+    $eventPersonName = $_POST['eventPersonName'];
 
-  class EventCore {
+    if(strtotime($eventTime) < strtotime('+9mins', time())) {
+      $eventInfo =  array('eventMsg' => 'Please set event time to be atleast 10 mins from now', 'eventCode' => 'error', 'eventTitle' => $eventTitle, 'eventDate' => $eventDate, 'eventTime' => $eventTime, 'eventNote' => $eventNote, 'eventPersonEmail' => $eventPersonEmail, 'eventPersonName' => $eventPersonName);
 
-    public function setEventValues() {
-      if ($_POST) {
-        $eventTitle = $_POST['eventTitle'];
-        $eventDate = $_POST['eventDate'];
-        $eventTime = $_POST['eventTime'];
-        $eventNote = $_POST['eventNote'];
-        $eventPersonEmail = $_POST['eventPersonEmail'];
-        $eventPersonName = $_POST['eventPersonName'];
-
-        if(strtotime($eventTime) < strtotime('+9mins', time())) {
-          return array('eventMsg' => 'Please set event time to be atleast 10 mins from now', 'eventCode' => 'error', 'eventTitle' => $eventTitle, 'eventDate' => $eventDate, 'eventTime' => $eventTime, 'eventNote' => $eventNote, 'eventPersonEmail' => $eventPersonEmail, 'eventPersonName' => $eventPersonName);
-        }
-
-        $eventInfo = array('eventTitle' => $eventTitle, 'eventDate' => $eventDate, 'eventTime' => $eventTime, 'sendTime' => strtotime('-5mins', strtotime("$eventTime $eventDate")), 'eventNote' => $eventNote, 'eventPersonEmail' => $eventPersonEmail, 'eventPersonName' => $eventPersonName);
-        
-        return $this->sendMail($eventInfo);
-      }
+      echo json_encode($eventInfo);
+      return;
     }
 
-    private function sendMail(array $eventInfo) {
-      $mailTemplate = $this->prepareMailTemplate($eventInfo);
+    $eventInfo = array('eventTitle' => $eventTitle, 'eventDate' => $eventDate, 'eventTime' => $eventTime, 'sendTime' => strtotime('-5mins', strtotime("$eventTime $eventDate")), 'eventNote' => $eventNote, 'eventPersonEmail' => $eventPersonEmail, 'eventPersonName' => $eventPersonName);
+    
+
+    $mailSender = sendMail($eventInfo);
+    echo json_encode($mailSender);
+    return;
+  }
+
+
+
+
+    function sendMail(array $eventInfo) {
+      $mailTemplate = prepareMailTemplate($eventInfo);
       $mailContent = addslashes(preg_replace('/\s+/', ' ', trim($mailTemplate)));
 
       $mailerRequestBody = json_decode('{
@@ -74,7 +78,7 @@
     }
 
 
-    protected function prepareMailTemplate(array $eventInfo) {
+    function prepareMailTemplate(array $eventInfo) {
       $mailTemplate = '
         <section style="margin: 0;padding-top: 3.5rem;-webkit-text-size-adjust: 100%;background-color: #e7e7e7;">
           <div style="width:100%; height:100%; color: #222;">
@@ -130,8 +134,5 @@
       return $mailTemplate;
     }
 
-
-  }
-  
 
 ?>

@@ -45,70 +45,15 @@ $(document).ready(function () {
 
 //FUNCTION TO GET AND DISPLAY CURRENT DATE AND TIME AT TOP OF THE PAGE
 function displayDateAndTime() {
-  //Insert current date at the heading
   var dateObj = new Date(),
-      // month = dateObj.getUTCMonth() + 1, //months from 1-12
-      // day = dateObj.getUTCDate(),
-      // year = dateObj.getUTCFullYear(),
-      // newdate = year + "-" + month + "-" + day,
       date = dateObj.toLocaleDateString(navigator.language, {year: 'numeric', month: 'short', day: '2-digit'}),
       laterDater = dateObj.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', second: '2-digit' })
 
+  //Insert current date at the heading
   document.getElementById("topDate").innerHTML = date;
 
   //Insert current time at the heading
   document.getElementById("topTime").innerHTML = laterDater;
-}
-
-//HANDLE CREATE EVENT FORM SUBMISSION
-$("#createEventForms").submit(function (event) {
-  event.preventDefault();
-  createEvent();
-});
-
-
-function createEvent() {
-  var title = $("#createEventFormTitle").val().trim();
-  var date = $("#createEventFormDate").val().trim();
-  var time = $("#createEventFormTime").val().trim();
-  var note = $("#createEventFormNote").val().trim();
-  var recurring = "false";
-
-  if ($('.createEventFormRecurring').is(":checked")) {
-    recurring = "true";
-  }
-
-  $.ajax({
-    url: "../backend/event.php",
-    type: "POST",
-    async: false,
-    data: {
-      "newTitle": title,
-      "newDate": date,
-      "newTime": time,
-      "newNote": note,
-      "newCheck": recurring,
-    },
-    // CAPTURE PHP RESPONSE FROM DATABASE EXECUTION AND POST APPROPRIATELY
-    success: function (response) {
-      if (response == 1) {
-        toastr["warning"]("You have an event set for this time on the same day! Change the time slot and try again.");
-      } else if (response == 2) {
-        //Clear all text fields
-        $("#createEventForm").reset();
-        //Display success message
-        toastr["success"]("Succesfuly created new event!");
-        setTimeout(() => {
-          window.location = "../dashboard";
-        }, 2000);
-      } else if (response == 3) {
-        toastr["warning"]("Failed to create new event!");
-      } else {
-        toastr["warning"](response);
-      }
-
-    }
-  });
 }
 
 function enableCreateEventButton() {
@@ -124,3 +69,35 @@ function enableCreateEventButton() {
     $("#createEventButtonAdd").addClass("disabled");
   }
 }
+
+
+/*==================================================================
+  UNCOMMENT THE CODE BELOW IF YOU PREFER TO USE A JQUERY APPROACH
+==================================================================*/
+
+//HANDLE CREATE EVENT FORM SUBMISSION
+/* 
+$("#createEventForm").submit(function (event) {
+  event.preventDefault();
+  createEvent();
+});
+
+
+function createEvent() {
+  let formData = $('#createEventForm').serialize()
+
+  $.ajax({
+    url: "./backend/event.php",
+    type: "POST",
+    data: formData,
+    // CAPTURE PHP RESPONSE FROM DATABASE EXECUTION AND POST APPROPRIATELY
+    success: function (response) {
+      let responseData = JSON.parse(response)
+      toastr[responseData["eventCode"]](responseData["eventMsg"]);
+      if (responseData["eventCode"] === 'success') {
+        $('#createEventForm').trigger('reset')
+      }
+    }
+  });
+}
+ */

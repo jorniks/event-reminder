@@ -44,7 +44,7 @@
 
     <?php
       require "vendor/autoload.php"; //COMPOSER LIBRARY FOR PHP
-      include 'backend/eventCore.php';
+      include 'backend/eventCore.class.php';
 
       $event = new EventCore();
       $eventValue = $event->setEventValues();
@@ -119,7 +119,7 @@
     <!-- Bootstrap core JavaScript -->
     <!-- ==================================================  -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery.3.6.0.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/mdb.js"></script>
     <script src="js/main.js"></script>
@@ -137,8 +137,15 @@
           enableCreateEventButton();
         }, 1000);
       });
-      toastr["<?=$eventCode?>"]("<?=$eventMsg?>");
     </script>
+
+    <?php
+      if ($eventCode !== '') {
+    ?>
+      <script> toastr["<?=$eventCode?>"]("<?=$eventMsg?>"); </script>
+    <?php
+      }
+    ?>
 
   </body>
 </html>
