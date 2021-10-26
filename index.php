@@ -43,6 +43,7 @@
     <main class="col-md-6 mx-auto my-5">
 
     <?php
+      require "vendor/autoload.php"; //COMPOSER LIBRARY FOR PHP
       include 'backend/eventCore.php';
 
       $event = new EventCore();
@@ -54,6 +55,7 @@
       $eventDate = $eventValue['eventDate'] ?? '';
       $eventTime = $eventValue['eventTime'] ?? '';
       $eventNote = $eventValue['eventNote'] ?? '';
+      $eventCode = $eventValue['eventCode'] ?? '';
       $eventMsg = $eventValue['eventMsg'] ?? '';
     ?>
 
@@ -102,8 +104,7 @@
           <!-- Note-->
     
           <!--Footer-->
-          <?=$eventMsg?>
-          <div class="text-right mt-5">
+          <div class="text-right mt-3">
             <!-- button should be disabled untill all fields are correctly filled -->
             <button class="btn btn-success disabled" id="createEventButtonAdd">
               Set Reminder <i class="far fa-alarm-clock ml-1 text-white"></i>
@@ -135,8 +136,8 @@
           displayDateAndTime();
           enableCreateEventButton();
         }, 1000);
-        // toastr["success"]("Login Succesful!");
       });
+      toastr["<?=$eventCode?>"]("<?=$eventMsg?>");
     </script>
 
   </body>
